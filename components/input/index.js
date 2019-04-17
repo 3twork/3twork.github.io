@@ -1,98 +1,14 @@
-import Intact from 'intact';
-import template from './index.vdt';
-import '../../styles/kpc.styl';
-import './index.styl';
-import {selectInput} from '../utils';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-export default class Input extends Intact {
-    @Intact.template
-    static template = template;
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
 
-    static propTypes = {
-        type: String,
-        name: String,
-        value: [String, Number],
-        defaultValue: [String, Number],
-        placeholder: String,
-        readonly: Boolean,
-        clearable: Boolean,
-        disabled: Boolean,
-        size: ['large', 'default', 'small', 'mini'],
-        rows: [Number, String],
-        spellcheck: Boolean,
-        autoWidth: Boolean,
-        fluid: Boolean,
-        width: [Number, String],
-        tabindex: [Number, String],
-        autocomplete: String,
-    };
-
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
     defaults() {
-        return {
-            type: 'text', // text | textarea
-            name: undefined,
-            value: undefined,
-            defaultValue: undefined,
-            placeholder: undefined,
-            readonly: false,
-            clearable: false,
-            disabled: false,
-            size: 'default',
-            rows: 2,
-            spellcheck: false,
-            autoWidth: false,
-            fluid: false,
-            width: undefined,
-            tabindex: undefined,
-            autocomplete: undefined,
-
-            _width: 1,
-        }
-    }
-
-    _init() {
-        this.on('$changed:value', this._adjustWidth);
-        this.on('$changed:placeholder', this._adjustWidth);
-    }
-
-    _mount() {
-        this.input = this.refs.input;
-        this._adjustWidth();
-    }
-
-    _adjustWidth() {
-        if (this.get('autoWidth')) {
-            const width = this.refs.fake.offsetWidth || 1;
-            this.set('_width', width);
-        }
-    }
-
-    clear(e) {
-        this.set('value', '');
-        this.focus();
-        this.trigger('clear', e);
-    }
-
-    select() {
-        selectInput(this.refs.input);
-    }
-
-    focus() {
-        this.refs.input.focus();
-    }
-    
-    blur() {
-        this.refs.input.blur();
-    }
-
-    _onInput(e) {
-        this.set('value', e.target.value);
-        this.trigger('input', e);
-    }
-
-    _proxyEvent(name, e) {
-        this.trigger(name, e);
+        return {...super.defaults(), ...data, demos};
     }
 }
-
-export {Input};

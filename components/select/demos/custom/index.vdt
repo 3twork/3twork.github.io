@@ -1,0 +1,10 @@
+import {Select, Option} from 'kpc/components/select';
+
+<Select v-model="day" filterable>
+    <Option v-for={{ self.get('data') }} value={{ value.value }} label={{ value.label }}>
+        <div>
+            <span>{{ value.label }}</span>
+            <span style="float: right; color: #ccc">{{ value.value }}</span>
+        </div>
+    </Option>
+</Select>

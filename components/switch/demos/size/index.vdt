@@ -1,0 +1,8 @@
+import {Switch} from 'kpc/components/switch';
+
+<div>
+    large: <Switch size="large" />
+    default: <Switch />
+    small: <Switch size='small' />
+    mini: <Switch size='mini' />
+</div>

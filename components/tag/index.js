@@ -1,34 +1,14 @@
-import Intact from 'intact';
-import template from './index.vdt';
-import '../../styles/kpc.styl';
-import './index.styl';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-export default class Tag extends Intact {
-    @Intact.template()
-    static template = template;
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
 
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
     defaults() {
-        return {
-            type: 'default',
-            closable: false,
-            closed: false,
-            disabled: false,
-            size: 'default',
-        };
-    }
-
-    static propTypes = {
-        type: ['default', 'primary', 'danger', 'success', 'warning'],
-        closable: Boolean,
-        closed: Boolean,
-        disabled: Boolean,
-        size: ['large', 'default', 'small', 'mini']
-    }
-
-    _close() {
-        this.set('closed', true);
-        this.trigger('close');
+        return {...super.defaults(), ...data, demos};
     }
 }
-
-export {Tag};

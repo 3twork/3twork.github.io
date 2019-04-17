@@ -1,0 +1,36 @@
+<template>
+    <div>
+        <Dropdown disabled>
+            <Button type="primary">
+                disabled <Icon class="ion-arrow-down-b" size="small" />
+            </Button>
+            <DropdownMenu>
+                <DropdownItem>item 1</DropdownItem>
+                <DropdownItem>item 2</DropdownItem>
+                <DropdownItem>item 3</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
+    
+        <Dropdown>
+            <Button type="primary">
+                disabled item<Icon class="ion-arrow-down-b" size="small" />
+            </Button>
+            <DropdownMenu>
+                <DropdownItem>item 1</DropdownItem>
+                <DropdownItem disabled>item 2</DropdownItem>
+                <DropdownItem>item 3</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
+    </div>
+</template>
+<script>
+import {Dropdown, DropdownMenu, DropdownItem} from 'kpc/components/dropdown';
+import Button from 'kpc/components/button';
+import Icon from 'kpc/components/icon';
+
+export default {
+    components: {
+        Dropdown, DropdownMenu, DropdownItem, Button, Icon
+    },
+}
+</script>

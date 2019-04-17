@@ -1,25 +1,14 @@
-import Intact from 'intact';
-import template from './index.vdt';
-import '../../styles/kpc.styl';
-import './index.styl';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-export default class Spin extends Intact {
-    @Intact.template()
-    static template = template;
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
 
-    static propTypes = {
-        size: ['large', 'default', 'small', 'mini'],
-        center: Boolean,
-        overlay: Boolean,
-    };
-
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
     defaults() {
-        return {
-            size: 'default',
-            center: false,
-            overlay: false,
-        };
+        return {...super.defaults(), ...data, demos};
     }
 }
-
-export {Spin};

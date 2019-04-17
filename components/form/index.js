@@ -1,7 +1,14 @@
-import Form from './form';
-import FormItem from './formItemWrapper';
-import '../../styles/kpc.styl';
-import './index.styl';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-export default Form;
-export {Form, FormItem}
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
+
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
+    defaults() {
+        return {...super.defaults(), ...data, demos};
+    }
+}

@@ -1,0 +1,3 @@
+import Table from 'kpc/components/table';
+
+<Table scheme={{ {a: '类型'} }} data={{ [{a: 'border类型'}] }} type="border" />

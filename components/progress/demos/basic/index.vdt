@@ -1,0 +1,6 @@
+import Progress from 'kpc/components/progress';
+
+<div>
+    <Progress percent="50" />
+    <Progress percent="100" />
+</div>

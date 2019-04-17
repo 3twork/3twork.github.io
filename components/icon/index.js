@@ -1,26 +1,14 @@
-import Intact from 'intact';
-import template from './index.vdt';
-import '../../styles/kpc.styl';
-import './index.styl';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-const colors = ['default', 'primary', 'warning', 'danger', 'success'];
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
 
-export default class Icon extends Intact {
-    @Intact.template()
-    static template = template;
-
-    static propTypes = {
-        size: ['large', 'default', 'small', 'mini', String, Number],
-        color: String,
-    }
-
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
     defaults() {
-        this.colors = colors;
-        return {
-            size: 'default',
-            color: undefined,
-        };
+        return {...super.defaults(), ...data, demos};
     }
 }
-
-export {Icon};

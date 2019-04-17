@@ -1,100 +1,14 @@
-import Intact from 'intact';
-import template from './index.vdt';
-import '../../styles/kpc.styl';
-import './index.styl';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-export default class Pagination extends Intact {
-    @Intact.template()
-    static template = template;
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
 
-    static propTypes = {
-        total: Number,
-        current: Number,
-        limit: Number,
-        counts: [Number, String],
-        limits: Array,
-        showGoto: Boolean,
-        size: ['large', 'default', 'small', 'mini'],
-        noBorder: Boolean,
-        simple: Boolean,
-    };
-
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
     defaults() {
-        return {
-            total: 0,
-            current: 1,
-            limit: 10,
-            counts: 7,
-            showTotal: true,
-            limits: [10, 20, 50],
-            // value: '',
-            showGoto: false,
-            size: 'default',
-            noBorder: false,
-            simple: false,
-        };
-    }
-
-    _init() {
-        // avoid setting incorrect value
-        this.changePage(this.get('current'));
-
-        this.on('$change:limit', (c, v) => {
-            const oldCurrent = this.get('current');
-            if (oldCurrent !== 1) {
-                this.set('current', 1, {silent: true});
-                this.update();
-            }
-            this.trigger('change', {limit: v, current: 1});
-        });
-
-        this.on('$change:current', (c, v) => {
-            this.trigger('change', {limit: this.get('limit'), current: v});
-        });
-    }
-
-    changePage(page) {
-        const {total, limit} = this.get();
-        const totalPages = Math.ceil(total / limit);
-
-        if (page > totalPages) {
-            page = totalPages;
-        }
-        if (page < 1) {
-            page = 1;
-        }
-
-        if (this.get('current') !== page) {
-            this.set('current', page);
-        } else {
-            // force update to fix invalid input
-            this.update();
-        }
-    }
-
-    prev() {
-        this.changePage(this.get('current') - 1);
-    }
-
-    next() {
-        this.changePage(this.get('current') + 1);
-    }
-
-    fastPrev() {
-        const page = this.get('current') - Math.ceil(this.get('counts') / 2);
-        this.changePage(page);
-    }
-
-    fastNext() {
-        const page = this.get('current') + Math.ceil(this.get('counts') / 2);
-        this.changePage(page);
-    }
-
-    _goto(e) {
-        // const regexp = /^[1-9]\d*$/;
-        const value = parseInt(e.target.value) || 1;
-        this.changePage(value);
+        return {...super.defaults(), ...data, demos};
     }
 }
-
-export {Pagination};

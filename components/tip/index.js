@@ -1,12 +1,14 @@
-import Intact from 'intact';
-import Tag from '../tag';
-import template from './index.vdt';
-import '../../styles/kpc.styl';
-import './index.styl';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-export default class Tip extends Tag {
-    @Intact.template()
-    static template = template;
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
+
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
+    defaults() {
+        return {...super.defaults(), ...data, demos};
+    }
 }
-
-export {Tip};

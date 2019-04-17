@@ -1,25 +1,14 @@
-import Intact from 'intact';
-import template from './index.vdt';
-import '../../styles/kpc.styl';
-import './index.styl';
+import Article from '~/../src/components/article';
+import data from './index.json';
+import sidebar from '~/doc.json';
 
-export default class Badge extends Intact {
-    @Intact.template()
-    static template = template;
+const r = require.context('./', true, /demos.*index.js$/);
+const demos = r.keys().map(r);
 
-    static propTypes = {
-        disabled: Boolean,
-        text: [String, Number],
-        max: Number,
-    };
-
+export default class extends Article {
+    static sidebar = sidebar;
+    static data = data;
     defaults() {
-        return {
-            disabled: false,
-            text: undefined,
-            max: undefined,
-        };
+        return {...super.defaults(), ...data, demos};
     }
 }
-
-export {Badge};
